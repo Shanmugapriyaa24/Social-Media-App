@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Logo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #33ccff 0%, #66ffcc 100%);
+    }
+
+    img {
+      max-width: 30%;
+      max-height: 30%;
+      animation: logoAnimation 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoAnimation {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0.8);
+      }
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="App Logo">
+  <noscript>
+    <p>This page requires JavaScript. Please enable it and reload.</p>
+  </noscript>
+  <script>
+    setTimeout(function(){
+      document.getElementById('logo').classList.add('hidden');
+      setTimeout(function(){
+        window.location.href = "{{ url_for('index') }}";
+      }, 1000); // Redirect after 1 second of hiding the logo
+    }, 5000);
+  </script>
+</body>
+</html>

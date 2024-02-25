@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Search Result - ConnectHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fafafa;
+    }
+
+    header {
+      background: linear-gradient(to right, #3498db, #2ecc71);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      max-height: 50px;
+    }
+
+    header nav {
+      display: flex;
+      align-items: center;
+    }
+
+    header .search-bar {
+      width: 300px;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+
+    header a.button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #2ecc71;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    header a.button:hover {
+      background-color: #27ae60;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ConnectHub Logo">
+    <h1>ConnectHub - Instagram-like Index Page</h1>
+    <nav>
+      <div class="search-bar">
+        <form action="{{ url_for('index') }}" method="post">
+          <input type="text" name="username" placeholder="Search...">
+          <button type="submit">&#128269;</button>
+        </form>
+      </div>
+      {% if current_user.is_authenticated %}
+        <span id="username">Welcome, {{ current_user.username }}!</span>
+        <a href="{{ url_for('logout') }}" class="button">Logout</a>
+      {% else %}
+        <a href="/login" class="button">Login</a>
+        <a href="/register" class="button">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+  {% if found_user %}
+    <h2>User Found!</h2>
+    <div>
+      <p><strong>Username:</strong> {{ found_user.username }}</p>
+      <p><strong>Email:</strong> {{ found_user.email }}</p>
+      <!-- Add more profile information here as needed -->
+    </div>
+  {% else %}
+    <h2>{{ message }}</h2>
+  {% endif %}
+</main>
+  <footer>
+    <p>&copy; 2024 ConnectHub App</p>
+  </footer>
+</body>
+</html>

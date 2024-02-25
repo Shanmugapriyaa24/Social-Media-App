@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConnectHub</title>
+  <!-- Include Font Awesome CSS (you can download it or use a CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fafafa;
+    }
+
+    header {
+      background: linear-gradient(to right, #3498db, #2ecc71);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      max-height: 50px;
+    }
+
+    header nav {
+      display: flex;
+      align-items: center;
+    }
+
+    header .search-bar {
+      width: 300px;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+
+    header a.button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #2ecc71;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    header a.button:hover {
+      background-color: #27ae60;
+    }
+
+    header #create-post-icon {
+      font-size: 24px;
+      color: #fff;
+      margin-left: auto; /* Push the icon to the right */
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    header #create-post-icon:hover {
+      color: #ddd; /* Change color on hover */
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .post {
+      margin: 1rem;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      overflow: hidden;
+      width: 400px;
+      height: 250px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .post p {
+      padding: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ConnectHub Logo">
+    <h1>ConnectHub </h1>
+    <nav>
+      <input type="text" class="search-bar" id="search-input" placeholder="Search...">
+      <button onclick="searchUser()">Search</button>
+      {% if current_user.is_authenticated %}
+        <span id="username">Welcome, {{ current_user.username }}!</span>
+        <a href="{{ url_for('logout') }}" class="button">Logout</a>
+      {% else %}
+        <a href="/login" class="button">Login</a>
+        <a href="/register" class="button">Register</a>
+      {% endif %}
+      <i class="fas fa-plus-circle" id="create-post-icon" onclick="location.href='{{ url_for('create_post') }}'"></i>
+    </nav>
+  </header>
+  <main>
+    {% for post in posts %}
+      <div class="post">
+        <p><strong>Username:</strong> {{ post[1] }}</p>
+        <p><strong>Post:</strong> {{ post[0] }}</p>
+      </div>
+    {% endfor %}
+  </main>
+  <footer>
+    <p>&copy; 2024 ConnectHub App</p>
+  </footer>
+  <!-- Add this script to your index.html -->
+<script>
+    function searchUser() {
+        var username = document.getElementById('search-input').value;
+        if (username.trim() !== '') {
+            document.location.href = '/search?username=' + username;
+        }
+    }
+</script>
+
+</body>
+</html>
